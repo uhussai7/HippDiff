@@ -19,13 +19,24 @@ end
 
 Nu=200; samplingu=0:1/(Nu-1):1;
 Nv=200; samplingv=0:1/(Nv-1):1;
-Nw=10; samplingw=0:1/(Nw-1):1;
+Nw=5; samplingw=0:1/(Nw-1):1;
+
+clear Xi Yi Zi;
+for int_u=1:Nu
+    for int_v=1:Nv
+        for int_w=1:Nw
+%             disp(samplingu(int_u));
+%             disp(samplingv(int_v));
+%             disp(samplingw(int_w));
+            r_q=Unfld2Native(samplingu(int_u),samplingv(int_v),samplingw(int_w),TRIxyz_c,TRIuvw_c);
+            Xi(int_u,int_v,int_w)=r_q(1);
+            Yi(int_u,int_v,int_w)=r_q(2);
+            Zi(int_u,int_v,int_w)=r_q(3);
+        end
+    end
+end
 
 [gu,gv,gw]=meshgrid(samplingu,samplingv,samplingw);
-
-Xi=Fi_L(gu,gv,gw);
-Yi=Fj_L(gu,gv,gw);
-Zi=Fk_L(gu,gv,gw);
 
 in=1;
 size_img=size(T2_nii.img);
@@ -58,7 +69,7 @@ for i_s=hipbox(1,1):hipbox(2,1)
         end
     end
 end
-TestU=scatteredInterpolant(transpose(in_i),transpose(in_j),transpose(in_k),transpose(double(V)),'nearest','none');
+TestU=scatteredInterpolant(transpose(in_i),transpose(in_j),transpose(in_k),transpose(double(V)),'linear','none');
 
             
 [j_u,i_u,k_u]=meshgrid(1:53,1:38,1:48); %notice how x and y are flipped here and below in the query
@@ -90,9 +101,9 @@ for u_in=1:Nu
 end
 
 figure;
-for tmp=2:9
+for tmp=2:Nw
  subplot(2,4,tmp-1);imagesc(flipud(squeeze(testu(:,:,tmp))));
     title(tmp);
 end
-
+figure;imagesc(flipud(squeeze(testu(:,:,3))));
 

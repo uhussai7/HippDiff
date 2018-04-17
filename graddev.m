@@ -19,6 +19,7 @@ graddev_phi_nonan_nii=make_nii(graddev_phi_nonan);
 
 graddev_phi_nonan_nii.hdr=U_nii.hdr;
 
+
 graddev_phi_nonan_nii.hdr.dime.dim(1)=4;
 graddev_phi_nonan_nii.hdr.dime.dim(2:5)=size(graddev_phi_nonan);
 graddev_phi_nonan_nii.hdr.dime.pixdim(5)=1;

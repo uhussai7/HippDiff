@@ -11,13 +11,10 @@ clear samplingu samplingv samplingw;
 clear gu gv gw;
 Nu=64; samplingu=su:(eu-su)/(Nu-1):eu;
 Nv=64; samplingv=sv:(ev-sv)/(Nv-1):ev;
-Nw=40; samplingw=sw:(ew-sw)/(Nw-1):ew;
+Nw=10; samplingw=sw:(ew-sw)/(Nw-1):ew;
 
 [gu,gv,gw]=meshgrid(samplingu,samplingv,samplingw);
 
-Xi=Fi_L(gu,gv,gw);
-Yi=Fj_L(gu,gv,gw);
-Zi=Fk_L(gu,gv,gw);
 
 clear Xi Yi Zi;
 for int_u=1:Nu
@@ -26,7 +23,7 @@ for int_u=1:Nu
 %             disp(samplingu(int_u));
 %             disp(samplingv(int_v));
 %             disp(samplingw(int_w));
-            r_q=Unfld2Native(samplingu(int_u),samplingv(int_v),samplingw(int_w), TRIuvw);
+            r_q=Unfld2Native(samplingu(int_u),samplingv(int_v),samplingw(int_w),TRIxyz_c,TRIuvw_c);
             Xi(int_u,int_v,int_w)=r_q(1);
             Yi(int_u,int_v,int_w)=r_q(2);
             Zi(int_u,int_v,int_w)=r_q(3);
@@ -34,8 +31,11 @@ for int_u=1:Nu
     end
 end
 
-figure;imagesc(squeeze(Zi(:,:,20)));
-
+figure;
+for temp=1:Nw
+imagesc(squeeze(Xi(:,:,temp)));
+pause(0.6);
+end;
 
 graddev_uvw=Iuvw(grad_dev_crop_nii,Xi,Yi,Zi);
 graddev_phi_uvw=Iuvw(graddev_phi_nonan_nii,Xi,Yi,Zi);
@@ -89,7 +89,7 @@ end
 figure;   
 for s=1:9
     %for t=1:8
-    subplot(3,3,s);imagesc(squeeze(graddev_phi_uvw(:,:,12,s)));
+    subplot(3,3,s);imagesc(squeeze(graddev_phi_uvw(:,:,3,s)));
     title(s);
     %end
 end
@@ -189,3 +189,5 @@ figure;scatter3(X_h,Y_h,Z_h,[],u_h);
 hold on; plot(Hippo_alpha);hold off;
 
 figure;scatter3(i_L,j_L,k_L);
+
+test=alphaShape(X_h,Y_h,Z_h);

@@ -1,0 +1,6 @@
+j_inds=find(isnan(graddev_phi_nonan_nii.img(:,:,:,6))==0);
+
+size_j=size(graddev_phi_nonan_nii.img(:,:,:,1));
+
+
+[J_i,J_j,J_k]=ind2sub(size_j,j_ind
