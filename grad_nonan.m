@@ -3,7 +3,6 @@ function [dyE,dxE,dzE] = grad_nonan(E)
 %   Detailed explanation goes here
 sz_E=size(E);
 dxEr=zeros(sz_E);
-dxEr(:)=NaN;
 dxEl=dxEr;
 dxE=dxEr;
 dyEr=dxEr;
