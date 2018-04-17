@@ -1,0 +1,14 @@
+function nii = head2fullnii(header,Laplace)
+
+ 
+ toEmbed=zeros(sz);
+ toEmbed(idxgm)=Laplace;
+ 
+ full_img=zeros(origsz);
+ full_img(cropping==1)=toEmbed;
+ nii=make_nii(full_img);
+ nii.hdr=origheader.original.hdr;
+ nii.hdr.dime.datatype=64;
+
+end
+
